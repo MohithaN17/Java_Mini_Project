@@ -1,0 +1,182 @@
+:root {
+    --eco-green: #0f766e;
+    --eco-green-dark: #115e59;
+    --eco-accent: #16a34a;
+    --bg-tint: #f4faf7;
+    --surface: #ffffff;
+    --border: #d1e7dd;
+    --text-main: #1e293b;
+    --text-muted: #475569;
+}
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg-tint);
+    color: var(--text-main);
+    line-height: 1.5;
+}
+
+.navbar {
+    background: var(--eco-green-dark);
+    color: #ffffff;
+    padding: 0.9rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+
+.brand { font-size: 1.2rem; font-weight: 700; }
+.nav-actions { display: flex; align-items: center; gap: 0.6rem; }
+
+.container {
+    max-width: 1120px;
+    margin: 1.75rem auto;
+    padding: 0 1rem;
+}
+
+.auth-card {
+    max-width: 440px;
+    margin: 2rem auto;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.75rem;
+    box-shadow: 0 6px 20px rgba(15, 118, 110, 0.08);
+}
+
+.tab-bar {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+    margin-bottom: 1.25rem;
+}
+
+.tab {
+    padding: 0.65rem;
+    border: 1px solid var(--border);
+    background: #f8fafc;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.tab.active {
+    background: var(--eco-green);
+    color: #ffffff;
+    border-color: var(--eco-green);
+}
+
+h1, h2 { margin-top: 0; color: var(--eco-green-dark); }
+h1 { font-size: 1.4rem; }
+h2 { font-size: 1.15rem; }
+
+label {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-top: 0.75rem;
+    margin-bottom: 0.25rem;
+}
+
+input, select {
+    width: 100%;
+    padding: 0.6rem 0.7rem;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    background: #ffffff;
+}
+
+.navbar select { width: auto; padding: 0.4rem 0.6rem; }
+.row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+
+.btn-primary {
+    width: 100%;
+    margin-top: 1.1rem;
+    padding: 0.75rem;
+    border: none;
+    border-radius: 8px;
+    background: var(--eco-accent);
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.btn-primary:hover { background: #15803d; }
+
+.btn-outline {
+    padding: 0.45rem 0.8rem;
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    background: transparent;
+    color: #ffffff;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.btn-secondary {
+    padding: 0.45rem 0.85rem;
+    border: 1px solid var(--eco-green);
+    background: #ffffff;
+    color: var(--eco-green);
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.35rem;
+    margin-bottom: 1.25rem;
+    box-shadow: 0 2px 10px rgba(15, 23, 42, 0.04);
+}
+
+.household-banner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    border-left: 5px solid var(--eco-accent);
+}
+
+.meta { margin: 0.25rem 0 0; color: var(--text-muted); }
+
+.metric-pill {
+    background: #dcfce7;
+    color: #14532d;
+    padding: 0.6rem 1rem;
+    border-radius: 999px;
+    font-weight: 600;
+}
+
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+.chart-wrap { position: relative; min-height: 260px; }
+.eco-box { background: #f0fdf4; }
+
+.table-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+}
+
+.table-responsive { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; }
+th, td { padding: 0.7rem 0.65rem; text-align: left; border-bottom: 1px solid #e2e8f0; }
+th { background: #f8fafc; font-weight: 700; }
+.hidden { display: none !important; }
+
+@media (max-width: 768px) { .grid-2 { grid-template-columns: 1fr; } }
+@media print {
+    .navbar, #applianceForm, #logoutBtn, #printBtn, #langSelect { display: none !important; }
+    body { background: #ffffff; }
+}

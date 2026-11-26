@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoTrack - Household Emission Estimator</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="navbar">
+        <div class="brand">🌱 <span data-i18n="appTitle">EcoTrack Household</span></div>
+        <div class="nav-actions">
+            <select id="langSelect" aria-label="Language selector">
+                <option value="en">English</option>
+                <option value="hi">हिन्दी</option>
+                <option value="kn">ಕನ್ನಡ</option>
+            </select>
+            <button type="button" id="logoutBtn" class="btn-outline hidden" data-i18n="logout">Logout</button>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Login & Registration -->
+        <section id="authSection" class="auth-card">
+            <div class="tab-bar">
+                <button type="button" id="loginTab" class="tab active" data-i18n="login">Login</button>
+                <button type="button" id="registerTab" class="tab" data-i18n="register">Register</button>
+            </div>
+
+            <form id="loginForm">
+                <h1 data-i18n="welcomeBack">Welcome Back</h1>
+                <label for="loginUsername" data-i18n="username">Username</label>
+                <input type="text" id="loginUsername" required>
+
+                <label for="loginPassword" data-i18n="password">Password</label>
+                <input type="password" id="loginPassword" required>
+
+                <button type="submit" class="btn-primary" data-i18n="login">Login</button>
+            </form>
+
+            <form id="registerForm" class="hidden">
+                <h1 data-i18n="createAccount">Create Household Account</h1>
+                <label for="regUsername" data-i18n="username">Username</label>
+                <input type="text" id="regUsername" required>
+
+                <label for="regPassword" data-i18n="password">Password</label>
+                <input type="password" id="regPassword" required>
+
+                <label for="regHousehold" data-i18n="householdName">Household Name</label>
+                <input type="text" id="regHousehold" placeholder="e.g., Green Villa" required>
+
+                <label for="regMembers" data-i18n="familyMembers">Family Members</label>
+                <input type="number" id="regMembers" min="1" value="4" required>
+
+                <label for="regCity" data-i18n="city">City</label>
+                <input type="text" id="regCity" placeholder="e.g., Bengaluru" required>
+
+                <button type="submit" class="btn-primary" data-i18n="register">Register</button>
+            </form>
+        </section>
+
+        <!-- Dashboard -->
+        <section id="dashboardSection" class="hidden">
+            <div class="card household-banner">
+                <div>
+                    <h1 id="houseTitle">Household</h1>
+                    <p class="meta">
+                        <span data-i18n="familyMembers">Family Members</span>: <strong id="memberCount">0</strong>
+                        &middot;
+                        <span id="cityName"></span>
+                    </p>
+                </div>
+                <div class="metric-pill">
+                    <span data-i18n="perCapita">Per-Person CO₂</span>:
+                    <strong id="perCapitaValue">0 kg</strong>
+                </div>
+            </div>
+
+            <div class="grid-2">
+                <div class="card">
+                    <h2 data-i18n="addAppliance">Add Appliance Usage</h2>
+                    <form id="applianceForm">
+                        <label for="monthInput" data-i18n="month">Month</label>
+                        <input type="month" id="monthInput" value="2026-11" required>
+
+                        <label for="applianceSelect" data-i18n="appliance">Appliance</label>
+                        <select id="applianceSelect">
+                            <option value="Fan" data-watt="75" data-i18n="appFan">Ceiling Fan (75W)</option>
+                            <option value="Light" data-watt="15" data-i18n="appLight">LED Light (15W)</option>
+                            <option value="Refrigerator" data-watt="150" data-i18n="appFridge">Refrigerator (150W)</option>
+                            <option value="AC" data-watt="1500" data-i18n="appAC">Air Conditioner (1500W)</option>
+                            <option value="TV" data-watt="100" data-i18n="appTV">Television (100W)</option>
+                            <option value="Washing Machine" data-watt="500" data-i18n="appWasher">Washing Machine (500W)</option>
+                        </select>
+
+                        <div class="row-2">
+                            <div>
+                                <label for="wattageInput" data-i18n="wattage">Wattage (W)</label>
+                                <input type="number" id="wattageInput" min="1" value="75" required>
+                            </div>
+                            <div>
+                                <label for="quantityInput" data-i18n="quantity">Quantity</label>
+                                <input type="number" id="quantityInput" min="1" value="1" required>
+                            </div>
+                        </div>
+
+                        <label for="hoursInput" data-i18n="hoursPerDay">Daily Usage (Hours)</label>
+                        <input type="number" id="hoursInput" min="0.5" max="24" step="0.5" value="6" required>
+
+                        <button type="submit" class="btn-primary" data-i18n="calculateSave">Calculate & Save</button>
+                    </form>
+                </div>
+
+                <div class="card">
+                    <h2 data-i18n="monthlyComparison">Monthly CO₂ Comparison (kg)</h2>
+                    <div class="chart-wrap">
+                        <canvas id="comparisonChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card eco-box">
+                <h2 data-i18n="ecoSuggestions">Eco-Friendly Suggestions</h2>
+                <ul id="ecoSuggestionsList"></ul>
+            </div>
+
+            <div class="card">
+                <div class="table-header">
+                    <h2 data-i18n="monthlyReport">Monthly Consumption & Emission Report</h2>
+                    <button type="button" id="printBtn" class="btn-secondary" data-i18n="printReport">Print Report</button>
+                </div>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th data-i18n="month">Month</th>
+                                <th data-i18n="appliance">Appliance</th>
+                                <th data-i18n="quantity">Qty</th>
+                                <th data-i18n="hoursShort">Hrs/Day</th>
+                                <th data-i18n="energyKwh">Energy (kWh)</th>
+                                <th data-i18n="co2Kg">CO₂ (kg)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="reportBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>
